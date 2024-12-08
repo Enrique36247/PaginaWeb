@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulario</title>
+
+  <link rel="stylesheet" href="css/form.css">
+</head>
+
+<body>
+  <header>
+    <a href="index.html" class="title">Inicio</a>
+  </header>
+  <div class="container">
+    <div class="item">
+      <form action="show-data.html" id="personal-data-form">
+        <label for="name">Nombre:</label>
+        <input type="text" name="name" id="name">
+        <span id="form-name">* campo requerido</span>
+
+        <label for="surname">Apellidos:</label>
+        <input type="text" name="surname" id="surname">
+        <span id="form-surname">* campo requerido</span>
+
+        <label for="email">Correo electrónico:</label>
+        <input type="text" name="email" id="email">
+        <span id="form-email">* campo requerido</span>
+
+        <select class="form-select" aria-label="Default select example" id="mySelect">
+          <option selected>Califique la página (1-5)</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+        
+
+        <label for="rate">Comentario:</label>
+        <input type="text" name="rate" id="rate">
+        <span id="form-rate">* campo requerido</span>
+
+        <div>
+          <button class="form-submit">Enviar</button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+  <script src="js/form.js"></script>
+</body>
+
+</html>

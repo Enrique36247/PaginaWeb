@@ -1,0 +1,132 @@
+body {
+    font-family: "Montserrat", sans-serif;
+    font-weight: bold;
+    background: #003479;
+  }
+  
+  header{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 40px;
+    background: black;
+    padding: 20px;
+    
+  }
+
+  header a{
+    text-decoration: none;
+    color: white;
+    font-size: 2em;
+    
+    
+  }
+
+  .container {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 10000;
+  
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    
+  }
+
+  
+  .item {
+    margin-top: 8em;
+    width: 90%;
+    padding: 1em;
+    border: 2px black solid;
+    background: white;
+    
+  
+    border-radius: 5px;
+    -webkit-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
+    box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
+  }
+  
+  #personal-data-form {
+    padding: 1em;
+  
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+  }
+  
+  #personal-data-form>input {
+    width: 100%;
+  }
+  
+  #personal-data-form>label {
+    margin: .5em 0;
+    width: 100%;
+  }
+  
+  .form-submit {
+    width: 100%;
+    margin: .5em 0;
+    text-align: right;
+  }
+  
+  .form-submit>button {
+    font-family: "Montserrat", sans-serif;
+    font-size: 1em;
+  
+    padding: .5em 1em;
+    border-radius: 5px;
+  
+    background-color: var(--primary-color);
+    color: var(--primary-color-inverse);
+  }
+  
+  #personal-data-form span {
+    color: lightcoral;
+    visibility: hidden;
+  }
+  
+  #personal-data-form input[type=text] {
+    border-radius: 5px;
+    border: 2px black solid;
+    background-color: var(--input-color);
+    padding: 1em;
+  }
+  
+  #personal-data-form input[type=text]:focus {
+    background-color: var(--input-color-focus);
+  }
+  
+  /* Extra small devices (phones, 600px and down) */
+  @media only screen and (max-width: 600px) {}
+  
+  /* Small devices (portrait tablets and large phones, 600px and up) */
+  @media only screen and (min-width: 600px) {
+    .container {
+      align-items: center;
+  
+    }
+  
+    .item {
+      width: 75%;
+    }
+  }
+  
+  /* Medium devices (landscape tablets, 768px and up) */
+  @media only screen and (min-width: 768px) {}
+  
+  /* Large devices (laptops/desktops, 992px and up) */
+  @media only screen and (min-width: 992px) {
+    .item {
+      width: 50%;
+    }
+  }
+  
+  /* Extra large devices (large laptops and desktops, 1200px and up) */
+  @media only screen and (min-width: 1200px) {}
