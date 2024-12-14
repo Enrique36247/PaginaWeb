@@ -5,7 +5,6 @@ document.addEventListener('DOMContentLoaded', function () {
   const commentInput = document.getElementById("comment");
   const form = document.getElementById('comment-form');
 
-  // Si estamos editando un producto, cargamos los datos en el formulario
   if (localStorage.getItem('editIndex') !== null) {
     const index = localStorage.getItem('editIndex');
     nameInput.value = localStorage.getItem('name');
@@ -13,33 +12,27 @@ document.addEventListener('DOMContentLoaded', function () {
     rateInput.value = localStorage.getItem('rate');
     commentInput.value = localStorage.getItem('comment');
 
-    // Cambiar el texto del botón para indicar que es una edición
     const submitButton = document.querySelector('button[type="submit"]');
     submitButton.textContent = "Guardar Cambios";
     
-    // Eliminar el índice de edición de localStorage
     localStorage.removeItem('editIndex');
   }
 
-  // Función para mostrar los mensajes de error
   function showError(input, message) {
     const errorElement = document.getElementById(`${input.id}-error`);
     input.classList.add("is-invalid");
     errorElement.textContent = message;
   }
 
-  // Función para limpiar los mensajes de error
   function clearError(input) {
     const errorElement = document.getElementById(`${input.id}-error`);
     input.classList.remove("is-invalid");
     errorElement.textContent = "";
   }
 
-  // Manejar el envío del formulario
   form.addEventListener('submit', function (e) {
     e.preventDefault();
 
-    // Limpiar cualquier mensaje de error previo
     clearError(nameInput);
     clearError(emailInput);
     clearError(rateInput);
@@ -47,7 +40,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     let isValid = true;
 
-    // Validación de los campos
     if (nameInput.value.trim() === "") {
       showError(nameInput, "El nombre es obligatorio.");
       isValid = false;
@@ -72,7 +64,6 @@ document.addEventListener('DOMContentLoaded', function () {
       isValid = false;
     }
 
-    // Si todos los campos son válidos, se guarda el comentario
     if (isValid) {
       const name = nameInput.value;
       const email = emailInput.value;
@@ -83,18 +74,15 @@ document.addEventListener('DOMContentLoaded', function () {
       let products = JSON.parse(localStorage.getItem('products')) || [];
 
       if (localStorage.getItem('editIndex') !== null) {
-        // Si estamos editando, reemplazamos el producto en el índice correspondiente
         const index = localStorage.getItem('editIndex');
         products[index] = product;
-        localStorage.removeItem('editIndex'); // Limpiamos el índice de edición
+        localStorage.removeItem('editIndex'); 
       } else {
-        // Si no estamos editando, simplemente agregamos el nuevo producto
         products.push(product);
       }
 
       localStorage.setItem('products', JSON.stringify(products));
 
-      // Redirigir a la página de comentarios
       window.location.href = "show-data.html";
     }
   });
