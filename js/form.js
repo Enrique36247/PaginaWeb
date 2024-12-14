@@ -1,117 +1,101 @@
-document.addEventListener('DOMContentLoaded', function() {
-  listenForValidation();
-});
+document.addEventListener('DOMContentLoaded', function () {
+  const nameInput = document.getElementById("name");
+  const emailInput = document.getElementById("email");
+  const rateInput = document.getElementById("rate");
+  const commentInput = document.getElementById("comment");
+  const form = document.getElementById('comment-form');
 
-function listenForValidation() {
-  const PERSONAL_DATA_FORM = document.getElementById("personal-data-form");
-  PERSONAL_DATA_FORM.addEventListener("submit", validatePersonalDataForm);
-}
+  // Si estamos editando un producto, cargamos los datos en el formulario
+  if (localStorage.getItem('editIndex') !== null) {
+    const index = localStorage.getItem('editIndex');
+    nameInput.value = localStorage.getItem('name');
+    emailInput.value = localStorage.getItem('email');
+    rateInput.value = localStorage.getItem('rate');
+    commentInput.value = localStorage.getItem('comment');
 
-function validatePersonalDataForm(e) {
-  e.preventDefault();
-
-  const NAME = e.target.name.value;
-  const SURNAME = e.target.surname.value;
-  const EMAIL = e.target.email.value;
-  const RATE = e.target.rate.value;
-
-  let valid = true;
-
-  if (!NAME) {
-    showErrorMessage("form-name", "Name is required.");
-    valid = false;
-  } else {
-    hideErrorMessage("form-name");
+    // Cambiar el texto del botón para indicar que es una edición
+    const submitButton = document.querySelector('button[type="submit"]');
+    submitButton.textContent = "Guardar Cambios";
+    
+    // Eliminar el índice de edición de localStorage
+    localStorage.removeItem('editIndex');
   }
 
-
-  if (!SURNAME) {
-    showErrorMessage("form-surname", "Surname is required.");
-    valid = false;
-  } else {
-    hideErrorMessage("form-surname");
+  // Función para mostrar los mensajes de error
+  function showError(input, message) {
+    const errorElement = document.getElementById(`${input.id}-error`);
+    input.classList.add("is-invalid");
+    errorElement.textContent = message;
   }
 
-
-  if (!EMAIL || !isValidEmail(EMAIL)) {
-    showErrorMessage("form-email", "Please enter a valid email.");
-    valid = false;
-  } else {
-    hideErrorMessage("form-email");
+  // Función para limpiar los mensajes de error
+  function clearError(input) {
+    const errorElement = document.getElementById(`${input.id}-error`);
+    input.classList.remove("is-invalid");
+    errorElement.textContent = "";
   }
 
+  // Manejar el envío del formulario
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
 
-  if (!RATE) {
-    showErrorMessage("form-rate", "Rate is required.");
-    valid = false;
-  } else {
-    hideErrorMessage("form-rate");
-  }
+    // Limpiar cualquier mensaje de error previo
+    clearError(nameInput);
+    clearError(emailInput);
+    clearError(rateInput);
+    clearError(commentInput);
 
-  const selectElement = document.getElementById('mySelect');
+    let isValid = true;
 
+    // Validación de los campos
+    if (nameInput.value.trim() === "") {
+      showError(nameInput, "El nombre es obligatorio.");
+      isValid = false;
+    }
 
-  selectElement.addEventListener('change', function (event) {
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    if (emailInput.value.trim() === "") {
+      showError(emailInput, "El correo electrónico es obligatorio.");
+      isValid = false;
+    } else if (!emailRegex.test(emailInput.value)) {
+      showError(emailInput, "Por favor, ingresa un correo electrónico válido.");
+      isValid = false;
+    }
 
-    const selectedValue = event.target.value;
+    if (rateInput.value === "") {
+      showError(rateInput, "Por favor, selecciona una calificación.");
+      isValid = false;
+    }
 
+    if (commentInput.value.trim() === "") {
+      showError(commentInput, "El comentario es obligatorio.");
+      isValid = false;
+    }
 
-    console.log('Seleccionaste el valor: ', selectedValue);
+    // Si todos los campos son válidos, se guarda el comentario
+    if (isValid) {
+      const name = nameInput.value;
+      const email = emailInput.value;
+      const rate = rateInput.value;
+      const comment = commentInput.value;
 
+      const product = { name, email, rate, comment };
+      let products = JSON.parse(localStorage.getItem('products')) || [];
 
-    switch (selectedValue) {
-      case '1':
+      if (localStorage.getItem('editIndex') !== null) {
+        // Si estamos editando, reemplazamos el producto en el índice correspondiente
+        const index = localStorage.getItem('editIndex');
+        products[index] = product;
+        localStorage.removeItem('editIndex'); // Limpiamos el índice de edición
+      } else {
+        // Si no estamos editando, simplemente agregamos el nuevo producto
+        products.push(product);
+      }
 
-        break;
-      case '2':
+      localStorage.setItem('products', JSON.stringify(products));
 
-        break;
-      case '3':
-
-        break;
-      case '4':
-
-        break;
-      case '5':
-
-        break;
-      default:
-
+      // Redirigir a la página de comentarios
+      window.location.href = "show-data.html";
     }
   });
-
-  if (valid) {
-    saveData(NAME, SURNAME, EMAIL, RATE);
-    e.target.submit();
-  }
-}
-
-
-function showErrorMessage(elementId, message) {
-  const errorElement = document.getElementById(elementId);
-  errorElement.textContent = message;
-  errorElement.style.visibility = "visible";
-}
-
-
-function hideErrorMessage(elementId) {
-  const errorElement = document.getElementById(elementId);
-  errorElement.style.visibility = "hidden";
-}
-
-
-function isValidEmail(email) {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email);
-}
-
-
-function saveData(name, surname, email, rate) {
-  localStorage.setItem("name", name);
-  localStorage.setItem("surname", surname);
-  localStorage.setItem("email", email);
-  localStorage.setItem("rate", rate);
-}
-
-
-listenForValidation();
+});
